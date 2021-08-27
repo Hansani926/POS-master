@@ -68,7 +68,7 @@ public class ManageItemFormController implements Initializable{
             ArrayList<ItemTM>allItemForTable=new ArrayList<>();
 
             for (Item item :allItems) {
-               allItemForTable.add(new ItemTM(item.getCode(),item.getDescription(),item.getUnitPrice(),item.getQtyOnHand()));
+               allItemForTable.add(new ItemTM(item.getCode(),item.getDescription(),item.getUnitPrice(),Integer.parseInt(item.getQtyOnHand())));
             }
 
 

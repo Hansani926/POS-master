@@ -67,14 +67,14 @@ public class Item {
     /**
      * @param unitPrice the unitPrice to set
      */
-    public void setUnitPrice(BigDecimal unitPrice) {
+    public void setUnitPrice(double unitPrice) {
         this.unitPrice = unitPrice;
     }
 
     /**
      * @return the qtyOnHand
      */
-    public int getQtyOnHand() {
+    public String getQtyOnHand() {
         return qtyOnHand;
     }
 
