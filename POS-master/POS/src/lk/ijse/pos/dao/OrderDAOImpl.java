@@ -164,64 +164,33 @@ public class OrderDAOImpl {
         pstm.setObject(2, orders.getDate());
         pstm.setObject(3, orders.getCustomerId());
 
-        return pstm.executeUpdate()>0;
+        return (pstm.executeUpdate()>0);
+
 
     }
 
     public boolean updateOrder(Orders orders) throws Exception {
-        Connection connection = DBConnection.getInstance().getConnection();
-
-        PreparedStatement pstm = connection.prepareStatement("UPDATE Orders SET date=?, customerId=? WHERE id=?");
-
-        pstm.setObject(1, orders.getDate());
-        pstm.setObject(2, orders.getCustomerId());
-        pstm.setObject(3, orders.getId());
-        return pstm.executeUpdate()>0;
+       throw  new UnsupportedOperationException("This feacher is not supported yet");
 
     }
 
     public boolean deleteOrder(String id) throws Exception {
-        Connection connection = DBConnection.getInstance().getConnection();
+     /*   Connection connection = DBConnection.getInstance().getConnection();
 
         PreparedStatement pstm = connection.prepareStatement("DELETE FROM Orders WHERE id=?");
         pstm.setObject(1, id);
-        return pstm.executeUpdate()>0;
+        return pstm.executeUpdate()>0;*/
 
-
+        throw  new UnsupportedOperationException("This feacher is not supported yet");
     }
 
-    public Customer searchOrder(String id) throws Exception {
-        String sql = "SELECT * FROM `Orders` WHERE id=?";
-        Connection connection = DBConnection.getInstance().getConnection();
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setObject(1, id);
-        ResultSet rst = pstm.executeQuery();
-        if (rst.next()) {
-            return new Customer(rst.getString(1),rst.getDate(2),rst.getString(3));
-        }
-        return null;
 
 
 
 
 
-    }
-    public ArrayList<Orders> getAllOrders() throws Exception {
-        Connection connection = DBConnection.getInstance().getConnection();
-        Statement stm = connection.createStatement();
-        ResultSet rst = stm.executeQuery("SELECT * FROM Orders");
-        ArrayList<Orders> orders = new ArrayList<>();
-        while (rst.next()) {
-            Orders order = new Orders(rst.getString(1), rst.getDate(2), rst.getString(3));
-            orders.add(order);
-        }
-        return orders;
 
 
-
-
-    }
-}
 
 
 

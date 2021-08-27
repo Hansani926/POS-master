@@ -23,14 +23,18 @@ import javafx.util.Callback;
 import lk.ijse.pos.dao.CustomerDAOImpl;
 import lk.ijse.pos.dao.ItemDAOImpl;
 import lk.ijse.pos.dao.OrderDAOImpl;
+import lk.ijse.pos.dao.OrderDetailDAOImpl;
 import lk.ijse.pos.db.DBConnection;
 import lk.ijse.pos.model.Customer;
 import lk.ijse.pos.model.Item;
+import lk.ijse.pos.model.OrderDetails;
+import lk.ijse.pos.model.Orders;
 import lk.ijse.pos.view.tblmodel.CustomerTM;
 import lk.ijse.pos.view.tblmodel.OrderDetailTM;
 
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.sql.*;
 import java.text.ParseException;
@@ -161,14 +165,12 @@ public class OrderFormController implements Initializable {
                     if (item != null) {
                         String description = item.getDescription();
                         double unitPrice = item.getUnitPrice().doubleValue();
-                        int qtyOnHand = item.getQtyOnHand();
+                        int qtyOnHand = Integer.parseInt(item.getQtyOnHand());
 
                         txtDescription.setText(description);
                         txtUnitPrice.setText(unitPrice + "");
                         txtQtyOnHand.setText(qtyOnHand + "");
                     }
-                } catch (SQLException ex) {
-                    Logger.getLogger(OrderFormController.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -318,39 +320,50 @@ public class OrderFormController implements Initializable {
     private void btnPlaceOrderOnAction(ActionEvent event) {
         try {
             connection.setAutoCommit(false);
-            String sql = "INSERT INTO Orders VALUES (?,?,?)";
+          /*  String sql = "INSERT INTO Orders VALUES (?,?,?)";
             PreparedStatement pstm = connection.prepareStatement(sql);
             pstm.setObject(1, txtOrderID.getText());
             pstm.setObject(2, parseDate(txtOrderDate.getEditor().getText()));
             pstm.setObject(3, cmbCustomerID.getSelectionModel().getSelectedItem());
             int affectedRows = pstm.executeUpdate();
+*/
 
-            if (affectedRows == 0) {
+            OrderDAOImpl orderDAO = new OrderDAOImpl();
+            Orders orders = new Orders(txtOrderID.getText(),parseDate(txtOrderDate.getEditor().getText()),cmbCustomerID.getSelectionModel().getSelectedItem());
+            boolean b1 = orderDAO.addOrder(orders);
+            if (!b1) {
                 connection.rollback();
                 return;
             }
 
-            pstm = connection.prepareStatement("INSERT INTO OrderDetails VALUES (?,?,?,?)");
+           /* pstm = connection.prepareStatement("INSERT INTO OrderDetails VALUES (?,?,?,?)");*/
+
+OrderDetailDAOImpl orderDetailDAO=new OrderDetailDAOImpl();
+
 
 
             for (OrderDetailTM orderDetail : olOrderDetails) {
-                pstm.setObject(1, txtOrderID.getText());
+                OrderDetails orderDetails=new OrderDetails(txtOrderID.getText(),orderDetail.getItemCode(),orderDetail.getQty(),new BigDecimal(orderDetail.getUnitPrice()));
+                boolean b2=orderDetailDAO.addOrderDetail(orderDetails);
+
+
+              /*  pstm.setObject(1, txtOrderID.getText());
                 pstm.setObject(2, orderDetail.getItemCode());
                 pstm.setObject(3, orderDetail.getQty());
                 pstm.setObject(4, orderDetail.getUnitPrice());
-                affectedRows = pstm.executeUpdate();
+                affectedRows = pstm.executeUpdate();*/
 
-                if (affectedRows == 0) {
+                if (!b2) {
                     connection.rollback();
                     return;
                 }
-                int qtyOnHand = 0;
+               int qtyOnHand = 0;
 
                 ItemDAOImpl itemDAO = new ItemDAOImpl();
                 Item item = itemDAO.searchItem(orderDetail.getItemCode());
 
                 if (item!=null) {
-                    qtyOnHand = item.getQtyOnHand();
+              qtyOnHand=Integer.parseInt(item.getQtyOnHand());
                 }
                 ItemDAOImpl itemDAO1 = new ItemDAOImpl();
                 boolean b = itemDAO1.updateItemQtyOnHand(orderDetail.getItemCode(), orderDetail.getQty());
