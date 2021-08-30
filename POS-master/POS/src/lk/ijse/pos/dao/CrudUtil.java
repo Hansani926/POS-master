@@ -4,18 +4,26 @@ import lk.ijse.pos.db.DBConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CrudUtil {
-    public  static <T> T execute(String sql,Object...args) throws Exception {
-        Connection connection= DBConnection.getInstance().getConnection();
-        PreparedStatement stm =connection.prepareStatement(sql);
-        for (int i = 0; i < args.length; i++) {
-            stm.setObject((i + 1), args[i]);
+    private static PreparedStatement getPreparedStatement(String sql, Object... data) throws Exception {
+        Connection connection = DBConnection.getInstance().getConnection();
+        PreparedStatement pstm = connection.prepareStatement(sql);
+        for (int i = 0; i < data.length; i++) {
+            pstm.setObject((i + 1), data[i]);
         }
-        if (sql.startsWith("SELECT")) {
-            return (T) stm.executeQuery();
-        }
-        return ((T) (Boolean) (stm.executeUpdate()>0));
+        return pstm;
     }
+
+    public static ResultSet executeQuery(String sql, Object... data) throws Exception {
+        return getPreparedStatement(sql, data).executeQuery();
+    }
+
+    public static boolean executeUpdate(String sql, Object... data) throws Exception {
+        return (getPreparedStatement(sql, data).executeUpdate() > 0);
+    }
+
+
 }

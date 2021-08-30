@@ -20,13 +20,19 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import lk.ijse.pos.dao.*;
+import lk.ijse.pos.dao.custom.CustomerDAO;
+import lk.ijse.pos.dao.custom.ItemDAO;
+import lk.ijse.pos.dao.custom.OrderDAO;
+import lk.ijse.pos.dao.custom.OrderDetailDAO;
+import lk.ijse.pos.dao.custom.impl.CustomerDAOImpl;
+import lk.ijse.pos.dao.custom.impl.ItemDAOImpl;
+import lk.ijse.pos.dao.custom.impl.OrderDAOImpl;
+import lk.ijse.pos.dao.custom.impl.OrderDetailDAOImpl;
 import lk.ijse.pos.db.DBConnection;
 import lk.ijse.pos.model.Customer;
 import lk.ijse.pos.model.Item;
 import lk.ijse.pos.model.OrderDetails;
 import lk.ijse.pos.model.Orders;
-import lk.ijse.pos.view.tblmodel.CustomerTM;
 import lk.ijse.pos.view.tblmodel.OrderDetailTM;
 
 
@@ -39,7 +45,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -163,8 +168,7 @@ public class OrderFormController implements Initializable {
                     Item item = itemDAO.searchItem(itemCode);
                     if (item != null) {
                         String description = item.getDescription();
-
-                        double unitPrice = unitPrice.doubleValue();
+                        double unitPrice = item.getUnitPrice();
                         int qtyOnHand = item.getQtyOnHand();
 
                         txtDescription.setText(description);
