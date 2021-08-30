@@ -17,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.pos.AppInitializer;
 import lk.ijse.pos.dao.CustomerDAOImpl;
+import lk.ijse.pos.dao.ItemDAO;
 import lk.ijse.pos.dao.ItemDAOImpl;
 import lk.ijse.pos.db.DBConnection;
 import lk.ijse.pos.model.Customer;
@@ -60,10 +61,12 @@ public class ManageItemFormController implements Initializable{
 
     private boolean addNew = true;
 
+    ItemDAO itemDAO=new ItemDAOImpl();
+
     private void loadAllItems(){
 
         try {
-            ItemDAOImpl itemDAO= new ItemDAOImpl();
+
             ArrayList<Item> allItems=itemDAO.getAllItems();
             ArrayList<ItemTM>allItemForTable=new ArrayList<>();
 
@@ -148,8 +151,8 @@ public class ManageItemFormController implements Initializable{
             try {
 
 
-                ItemDAOImpl dao = new ItemDAOImpl();
-                boolean b = dao.addItem(new Item(txtItemCode.getText(), txtDescription.getText(),new BigDecimal(txtUnitPrice.getText()),Integer.parseInt(txtQty.getText()) ));
+
+                boolean b =itemDAO.addItem(new Item(txtItemCode.getText(), txtDescription.getText(),new BigDecimal(txtUnitPrice.getText()),Integer.parseInt(txtQty.getText()) ));
                 if (b) {
                     loadAllItems();
                 } else {
@@ -167,8 +170,8 @@ public class ManageItemFormController implements Initializable{
 
             try {
 
-                ItemDAOImpl dao = new ItemDAOImpl();
-                boolean b = dao.updateItem(new Item(txtItemCode.getText(), txtDescription.getText(), new BigDecimal(txtUnitPrice.getText()),Integer.parseInt(txtQty.getText())));
+
+                boolean b = itemDAO.updateItem(new Item(txtItemCode.getText(), txtDescription.getText(), new BigDecimal(txtUnitPrice.getText()),Integer.parseInt(txtQty.getText())));
                 if (b) {
                     loadAllItems();
                 } else {
@@ -198,7 +201,7 @@ public class ManageItemFormController implements Initializable{
 
             try {
 
-                ItemDAOImpl itemDAO = new ItemDAOImpl();
+               
                 boolean b = itemDAO.deleteItem(code);
 
                 if (b) {
