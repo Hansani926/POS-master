@@ -20,7 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 
-public class OrderDAOImpl {
+public class OrderDAOImpl implements OrderDAO {
 
     /*CustomerDAOImpl customerDAO;
     ItemDAOImpl itemDAO;
@@ -156,6 +156,7 @@ public class OrderDAOImpl {
 
     }*/
 
+
     public boolean addOrder(Orders orders) throws Exception {
         Connection connection = DBConnection.getInstance().getConnection();
         PreparedStatement pstm = connection.prepareStatement("INSERT INTO Orders VALUES (?,?,?)");
@@ -184,14 +185,10 @@ public class OrderDAOImpl {
         throw  new UnsupportedOperationException("This feacher is not supported yet");
     }
 
-
-
-
-
-
-
-
-
+    @Override
+    public Item searchItem(String s) throws Exception {
+        return null;
+    }
 
 
 }

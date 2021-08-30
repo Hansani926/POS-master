@@ -89,7 +89,7 @@ public class OrderFormController implements Initializable {
     private final CustomerDAO customerDAO = new CustomerDAOImpl();
     private final ItemDAO itemDAO = new ItemDAOImpl();
     private final OrderDAO orderDAO = new OrderDAOImpl();
-    private final OrderDetailDAO orderDetailDAO = new OrderDetailDAOImpl();
+    private final OrderDetailDAO orderDetailDAO =  new OrderDetailDAOImpl();
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
