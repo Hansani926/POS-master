@@ -13,30 +13,13 @@ import java.util.ArrayList;
 public class ItemDAOImpl implements ItemDAO {
     @Override
     public boolean addItem(Item item) throws Exception {
-       /* Connection connection = DBConnection.getInstance().getConnection();
 
-        PreparedStatement pstm = connection.prepareStatement("INSERT INTO Item VALUES (?,?,?,?)");
-
-
-        pstm.setObject(1, item.getCode());
-        pstm.setObject(2, item.getDescription());
-        pstm.setObject(3, new BigDecimal(String.valueOf(item.getUnitPrice())));
-        pstm.setObject(4, item.getQtyOnHand());
-        return (pstm.executeUpdate() > 0);*/
         return CrudUtil.execute("INSERT INTO item VALUES(?,?,?,?,?)",item.getCode(),item.getDescription(),item.getUnitPrice(),item.getQtyOnHand());
     }
 
     @Override
     public boolean updateItem(Item item) throws Exception {
-       /* Connection connection = DBConnection.getInstance().getConnection();
 
-        PreparedStatement pstm = connection.prepareStatement("UPDATE Item SET description=?, unitPrice=?, qtyOnHand=? WHERE code=?");
-
-        pstm.setObject(1, item.getCode());
-        pstm.setObject(2, new BigDecimal(String.valueOf(item.getUnitPrice())));
-        pstm.setObject(3, item.getQtyOnHand());
-        pstm.setObject(4, item.getCode());
-        return (pstm.executeUpdate() > 0);*/
         return CrudUtil.execute("UPDATE Item SET description=?, unitPrice=?, qtyOnHand=? WHERE code=?",item.getCode(),item.getDescription(),item.getUnitPrice(),item.getQtyOnHand());
     }
 
@@ -49,18 +32,7 @@ public class ItemDAOImpl implements ItemDAO {
 
 @Override
     public ArrayList<Item> getAllItems() throws Exception {
-       /* Connection connection = DBConnection.getInstance().getConnection();
 
-        Statement stm = connection.createStatement();
-
-        ResultSet rst = stm.executeQuery("SELECT * FROM Item");
-
-        ArrayList<Item> alItems = new ArrayList<>();
-        while (rst.next()) {
-            Item item = new Item(rst.getString(1), rst.getString(2), rst.getBigDecimal(3), rst.getInt(4));
-            alItems.add(item);
-        }
-        return alItems;*/
     ResultSet resultSet = CrudUtil.execute("SELECT * FROM Item");
     ArrayList<Item> itemList = new ArrayList<>();
     while (resultSet.next()) {
@@ -78,11 +50,7 @@ public class ItemDAOImpl implements ItemDAO {
 
 @Override
     public boolean updateItemQtyOnHand(String code,int qtyOnHand) throws Exception {
-       /* Connection connection = DBConnection.getInstance().getConnection();
-        PreparedStatement pstm = connection.prepareStatement("UPDATE Item SET qtyOnHand=? WHERE code=?");
-        pstm.setObject(1, qtyOnHand);
-        pstm.setObject(2, code);
-        return (pstm.executeUpdate() > 0);*/
+
     return CrudUtil.execute("UPDATE Item SET QtyonHand= (qtyOnHand -?) WHERE ItemCode=?",code,qtyOnHand);
     }
 
