@@ -5,8 +5,8 @@
  */
 package lk.ijse.pos.model;
 
-import java.math.BigDecimal;
 
+import java.math.BigDecimal;
 
 /**
  * @author : Sanu Vithanage
@@ -16,13 +16,13 @@ import java.math.BigDecimal;
 public class Item {
     private String code;
     private String description;
-    private BigDecimal unitPrice;
+    private double unitPrice;
     private int qtyOnHand;
 
-    public Item() {
+    public Item(String string, String rstString, BigDecimal bigDecimal, int anInt) {
     }
 
-    public Item(String code, String description,BigDecimal unitPrice, int qtyOnHand) {
+    public Item(String code, String description,double unitPrice, int qtyOnHand) {
         this.code = code;
         this.description = description;
         this.unitPrice = unitPrice;
@@ -60,7 +60,7 @@ public class Item {
     /**
      * @return the unitPrice
      */
-    public BigDecimal getUnitPrice() {
+    public double getUnitPrice() {
         return unitPrice;
     }
 
@@ -74,7 +74,7 @@ public class Item {
     /**
      * @return the qtyOnHand
      */
-    public String getQtyOnHand() {
+    public int getQtyOnHand() {
         return qtyOnHand;
     }
 

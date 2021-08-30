@@ -164,8 +164,8 @@ public class OrderFormController implements Initializable {
                     Item item = itemDAO.searchItem(itemCode);
                     if (item != null) {
                         String description = item.getDescription();
-                        double unitPrice = item.getUnitPrice().doubleValue();
-                        int qtyOnHand = Integer.parseInt(item.getQtyOnHand());
+                        double unitPrice = item.getUnitPrice();
+                        int qtyOnHand = item.getQtyOnHand();
 
                         txtDescription.setText(description);
                         txtUnitPrice.setText(unitPrice + "");
@@ -363,7 +363,7 @@ OrderDetailDAOImpl orderDetailDAO=new OrderDetailDAOImpl();
                 Item item = itemDAO.searchItem(orderDetail.getItemCode());
 
                 if (item!=null) {
-              qtyOnHand=Integer.parseInt(item.getQtyOnHand());
+                    qtyOnHand = item.getQtyOnHand();
                 }
                 ItemDAOImpl itemDAO1 = new ItemDAOImpl();
                 boolean b = itemDAO1.updateItemQtyOnHand(orderDetail.getItemCode(), orderDetail.getQty());

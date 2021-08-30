@@ -20,7 +20,7 @@ public class ItemDAOImpl {
         pstm.setObject(1, item.getCode());
         pstm.setObject(2, item.getDescription());
         pstm.setObject(3, new BigDecimal(String.valueOf(item.getUnitPrice())));
-        pstm.setObject(4, Integer.parseInt(item.getQtyOnHand()));
+        pstm.setObject(4, item.getQtyOnHand());
         return (pstm.executeUpdate() > 0);
     }
 
@@ -31,7 +31,7 @@ public class ItemDAOImpl {
 
         pstm.setObject(1, item.getCode());
         pstm.setObject(2, new BigDecimal(String.valueOf(item.getUnitPrice())));
-        pstm.setObject(3, Integer.parseInt(item.getQtyOnHand()));
+        pstm.setObject(3, item.getQtyOnHand());
         pstm.setObject(4, item.getCode());
         return (pstm.executeUpdate() > 0);
     }
