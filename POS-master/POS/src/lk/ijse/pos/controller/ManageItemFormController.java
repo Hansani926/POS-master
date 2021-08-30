@@ -201,7 +201,7 @@ public class ManageItemFormController implements Initializable{
 
             try {
 
-               
+
                 boolean b = itemDAO.deleteItem(code);
 
                 if (b) {
